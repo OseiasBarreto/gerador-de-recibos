@@ -1,12 +1,24 @@
-
-import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        Cliente cliente = new Cliente("João", "12345678900", "11999999999", "joao@email.com");
-        Servico servico = new Servico("Consultoria Java", 350.00, "PIX", LocalDate.now());
+        ClienteRepository repo = new ClienteRepository();
 
-        Recibo recibo = new Recibo(cliente, servico, "Oséias Barreto", "27/06/2025");
+        // Criando lista de clientes
+        List<Cliente> clientes = new ArrayList<>();
+        clientes.add(new Cliente("João", "123", "1199", "joao@email.com"));
+        clientes.add(new Cliente("Maria", "456", "1188", "maria@email.com"));
 
+        // Salvando lista
+        repo.salvarTodos(clientes);
+
+        // Carregando lista
+        List<Cliente> listaCarregada = repo.carregarTodos();
+        if (listaCarregada != null) {
+            for (Cliente c : listaCarregada) {
+                System.out.println("Cliente: " + c.getNome());
+            }
+        }
     }
 }

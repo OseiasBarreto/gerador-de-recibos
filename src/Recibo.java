@@ -1,11 +1,12 @@
+import java.time.LocalDate;
 
 public class Recibo {
     private Cliente cliente;
     private Servico servico;
     private String prestador;
-    private String dataEmissao;
+    private LocalDate dataEmissao;
 
-    public Recibo(Cliente cliente, Servico servico, String prestador, String dataEmissao) {
+    public Recibo(Cliente cliente, Servico servico, String prestador, LocalDate dataEmissao) {
         this.cliente = cliente;
         this.servico = servico;
         this.prestador = prestador;
@@ -36,11 +37,11 @@ public class Recibo {
         this.prestador = prestador;
     }
 
-    public String getDataEmissao() {
+    public LocalDate getDataEmissao() {
         return dataEmissao;
     }
 
-    public void setDataEmissao(String dataEmissao) {
+    public void setDataEmissao(LocalDate dataEmissao) {
         this.dataEmissao = dataEmissao;
     }
 }
