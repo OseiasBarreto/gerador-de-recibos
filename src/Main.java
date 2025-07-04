@@ -1,24 +1,33 @@
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        ClienteRepository repo = new ClienteRepository();
+        // Criar cliente
+        Cliente cliente = new Cliente("João Silva", "12345678900", "11999999999", "joao@email.com");
 
-        // Criando lista de clientes
-        List<Cliente> clientes = new ArrayList<>();
-        clientes.add(new Cliente("João", "123", "1199", "joao@email.com"));
-        clientes.add(new Cliente("Maria", "456", "1188", "maria@email.com"));
+        // Criar serviço
+        Servico servico = new Servico("Desenvolvimento de site", 1200.00, "PIX", LocalDate.now());
 
-        // Salvando lista
-        repo.salvarTodos(clientes);
+        // Criar recibo
+        Recibo recibo = new Recibo(cliente, servico, "Oséias Barreto", LocalDate.now());
 
-        // Carregando lista
-        List<Cliente> listaCarregada = repo.carregarTodos();
-        if (listaCarregada != null) {
-            for (Cliente c : listaCarregada) {
-                System.out.println("Cliente: " + c.getNome());
-            }
+        // Criar repositório
+        ReciboRepository repo = new ReciboRepository();
+
+        // Salvar recibo no JSON
+            repo.salvarRecibo(recibo);
+
+        // Ler todos os recibos salvos
+         List<Recibo> recibos = repo.carregarTodos();
+
+        // Mostrar no console
+        for (Recibo r : recibos) {
+            System.out.println("Cliente: " + r.getCliente().getNome());
+            System.out.println("Serviço: " + r.getServico().getDescricao());
+            System.out.println("Valor: R$" + r.getServico().getValor());
+            System.out.println("Data: " + r.getDataEmissao());
+            System.out.println("-----------");
         }
     }
 }
