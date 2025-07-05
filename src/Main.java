@@ -1,8 +1,17 @@
 import java.time.LocalDate;
 import java.util.List;
 
+import java.time.LocalDate;
+import java.util.List;
+
+
+
 public class Main {
     public static void main(String[] args) {
+
+
+
+
         // Criar cliente
         Cliente cliente = new Cliente("João Silva", "12345678900", "11999999999", "joao@email.com");
 

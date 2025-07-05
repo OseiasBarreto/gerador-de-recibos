@@ -44,5 +44,13 @@ public class ReciboRepository {
 
         salvarTodos(recibos);
     }
+    public void salvaRecibo (Recibo recibo){
+        List<Recibo> recibos = carregarTodos();
+        if (recibos == null) {
+            recibos = new java.util.ArrayList<>();
+        }
+        recibos.add(recibo);
+        salvarTodos(recibos);
+    }
 
 }
