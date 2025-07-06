@@ -1,6 +1,12 @@
+package model;
+
+
+
 import java.time.LocalDate;
 
-public class Recibo {
+import java.time.LocalDate;
+
+public class Recibo implements Comparable<Recibo> {
     private Cliente cliente;
     private Servico servico;
     private String prestador;
@@ -43,6 +49,10 @@ public class Recibo {
 
     public void setDataEmissao(LocalDate dataEmissao) {
         this.dataEmissao = dataEmissao;
+    }
+    @Override
+    public int compareTo(Recibo outro){
+        return this.dataEmissao.compareTo(outro.dataEmissao);
     }
 }
 

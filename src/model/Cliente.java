@@ -1,3 +1,5 @@
+package model;
+
 public class Cliente {
     private String nome;
     private String cpfCnpj;
@@ -45,7 +47,7 @@ public class Cliente {
 
     @Override
     public String toString() {
-        return "Cliente{" +
+        return "model.Cliente: {" +
                 "nome='" + nome + '\'' +
                 ", cpfCnpj='" + cpfCnpj + '\'' +
                 ", telefone='" + telefone + '\'' +

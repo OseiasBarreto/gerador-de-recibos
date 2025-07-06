@@ -1,9 +1,13 @@
-import java.time.LocalDate;
-import java.util.List;
+package app;
 
+import model.Cliente;
+import model.Recibo;
+import model.Servico;
+import repository.ReciboRepository;
+import java.util.Collections;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
-
 
 
 public class Main {
@@ -29,6 +33,10 @@ public class Main {
 
         // Ler todos os recibos salvos
          List<Recibo> recibos = repo.carregarTodos();
+
+
+         //ordenar recibos por data
+        Collections.sort(recibos);
 
         // Mostrar no console
         for (Recibo r : recibos) {
