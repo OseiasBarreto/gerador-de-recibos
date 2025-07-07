@@ -11,6 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ReciboRepository {
@@ -48,13 +49,21 @@ public class ReciboRepository {
 
         salvarTodos(recibos);
     }
-    public void salvaRecibo (Recibo recibo){
-        List<Recibo> recibos = carregarTodos();
-        if (recibos == null) {
-            recibos = new java.util.ArrayList<>();
+
+    public List<Recibo> filtrarPorCliente(String termoBusca){
+        List<Recibo> todos = carregarTodos();
+        List<Recibo> filtrados = new ArrayList<>();
+
+        String termo = termoBusca.toLowerCase();
+
+        for (Recibo r : todos){
+            String cpf = r.getCliente().getCpfCnpj();
+
+            if (cpf.contains(termo)){
+                filtrados.add(r);
+            }
         }
-        recibos.add(recibo);
-        salvarTodos(recibos);
+        return filtrados;
     }
 
 }
