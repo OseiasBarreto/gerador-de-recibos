@@ -65,5 +65,17 @@ public class ReciboRepository {
         }
         return filtrados;
     }
+    public List<Recibo> filtrarPorCpf(String cpfBusca){
+        List<Recibo> todos = carregarTodos();
+        List<Recibo> filtrados = new ArrayList<>();
+
+        for (Recibo r : todos){
+            String cpf = r.getCliente().getCpfCnpj();
+            if (cpf.contains(cpfBusca)){
+                filtrados.add(r);
+            }
+        }
+        return filtrados;
+    }
 
 }
