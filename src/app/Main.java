@@ -2,8 +2,12 @@ package app;
 
 import ui.BuscaReciboForm;
 
+import javax.swing.SwingUtilities;
+
 public class Main {
     public static void main(String[] args) {
-        new BuscaReciboForm(); // Inicia a tela com campo de busca
+        SwingUtilities.invokeLater(() -> {
+            new BuscaReciboForm().setVisible(true);
+        });
     }
 }

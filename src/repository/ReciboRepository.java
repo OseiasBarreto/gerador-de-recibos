@@ -26,7 +26,7 @@ public class ReciboRepository {
         try (FileWriter writer = new FileWriter(CAMINHO_ARQUIVO)){
             gson.toJson(recibos, writer);
             System.out.println("Recibos salvos com sucesso!");
-        }catch (IOException e){
+        } catch (IOException e){
             e.printStackTrace();
         }
     }
@@ -35,36 +35,32 @@ public class ReciboRepository {
         try (FileReader reader = new FileReader(CAMINHO_ARQUIVO)){
             Type tipoLista = new TypeToken<List<Recibo>>() {}.getType();
             return gson.fromJson(reader, tipoLista);
-        }catch (IOException e){
+        } catch (IOException e){
             e.printStackTrace();
-            return null;
+            return new ArrayList<>(); // ← Evita retornar null
         }
     }
-    public void salvarRecibo (Recibo recibo){
-        List<Recibo> recibos = carregarTodos();
-        if (recibos == null){
-            recibos = new java.util.ArrayList<>();
-        }
-        recibos.add(recibo);
 
+    public void salvarRecibo(Recibo recibo){
+        List<Recibo> recibos = carregarTodos();
+        recibos.add(recibo);
         salvarTodos(recibos);
     }
 
     public List<Recibo> filtrarPorCliente(String termoBusca){
         List<Recibo> todos = carregarTodos();
         List<Recibo> filtrados = new ArrayList<>();
-
         String termo = termoBusca.toLowerCase();
 
         for (Recibo r : todos){
             String cpf = r.getCliente().getCpfCnpj();
-
             if (cpf.contains(termo)){
                 filtrados.add(r);
             }
         }
         return filtrados;
     }
+
     public List<Recibo> filtrarPorCpf(String cpfBusca){
         List<Recibo> todos = carregarTodos();
         List<Recibo> filtrados = new ArrayList<>();
@@ -77,5 +73,4 @@ public class ReciboRepository {
         }
         return filtrados;
     }
-
 }

@@ -4,68 +4,67 @@ import model.Recibo;
 import repository.ReciboRepository;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 
 public class BuscaReciboForm extends JFrame {
-
-    private JTextField campoBusca;
-    private JButton botaoBuscar;
-    private JTextArea areaResultado;
+    private JTextField cpfField;
+    private JButton buscarButton;
+    private JTable tabela;
+    private DefaultTableModel tabelaModelo;
 
     public BuscaReciboForm() {
-        setTitle("Buscar Recibos");
-        setSize(500, 400);
+        setTitle("Buscar Recibos por CPF");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(600, 400);
+        setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
-        // Painel de busca (norte)
-        JPanel painelBusca = new JPanel();
-        painelBusca.setLayout(new FlowLayout());
+        // Painel de topo com campo CPF e botão
+        JPanel topo = new JPanel();
+        topo.setLayout(new FlowLayout());
 
-        campoBusca = new JTextField(20);
-        botaoBuscar = new JButton("Buscar");
+        topo.add(new JLabel("CPF:"));
+        cpfField = new JTextField(15);
+        topo.add(cpfField);
 
-        painelBusca.add(new JLabel("Nome ou CPF:"));
-        painelBusca.add(campoBusca);
-        painelBusca.add(botaoBuscar);
+        buscarButton = new JButton("Buscar");
+        topo.add(buscarButton);
 
-        add(painelBusca, BorderLayout.NORTH);
+        add(topo, BorderLayout.NORTH);
 
-        // Área de resultado (centro)
-        areaResultado = new JTextArea();
-        areaResultado.setEditable(false);
-        add(new JScrollPane(areaResultado), BorderLayout.CENTER);
+        // Tabela para exibir os recibos
+        String[] colunas = {"Cliente", "Serviço", "Valor", "Data"};
+        tabelaModelo = new DefaultTableModel(colunas, 0);
+        tabela = new JTable(tabelaModelo);
+        JScrollPane scrollPane = new JScrollPane(tabela);
 
-        // Ação do botão
-        botaoBuscar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                buscarRecibos();
-            }
-        });
+        add(scrollPane, BorderLayout.CENTER);
 
-        setVisible(true);
+        // Ação do botão buscar
+        buscarButton.addActionListener(e -> buscarRecibos());
     }
 
     private void buscarRecibos() {
-        String termo = campoBusca.getText().toLowerCase();
-        ReciboRepository repo = new ReciboRepository();
-        List<Recibo> resultados = repo.filtrarPorCliente(termo);
+        String cpf = cpfField.getText().trim();
 
-        areaResultado.setText("");
+        ReciboRepository repo = new ReciboRepository();
+        List<Recibo> resultados = repo.filtrarPorCpf(cpf);
+
+        tabelaModelo.setRowCount(0); // Limpa a tabela
 
         if (resultados.isEmpty()) {
-            areaResultado.setText("Nenhum recibo encontrado para: " + termo);
+            JOptionPane.showMessageDialog(this, "Nenhum recibo encontrado para o CPF informado.");
         } else {
             for (Recibo r : resultados) {
-                areaResultado.append("Cliente: " + r.getCliente().getNome() + "\n");
-                areaResultado.append("Serviço: " + r.getServico().getDescricao() + "\n");
-                areaResultado.append("Valor: R$" + r.getServico().getValor() + "\n");
-                areaResultado.append("Data: " + r.getDataEmissao() + "\n");
-                areaResultado.append("--------------------------\n");
+                Object[] linha = {
+                        r.getCliente().getNome(),
+                        r.getServico().getDescricao(),
+                        "R$" + r.getServico().getValor(),
+                        r.getDataEmissao()
+                };
+                tabelaModelo.addRow(linha);
             }
         }
     }
